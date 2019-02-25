@@ -200,7 +200,7 @@ public class MyLinkedList<T> : IEnumerable<T> where T : IComparable
         }
     }
     
-    public void Sort()
+    public void Sort2()
     {
         bool swapped = true;
         Node actualNode = head;
@@ -220,9 +220,38 @@ public class MyLinkedList<T> : IEnumerable<T> where T : IComparable
                     temp = actualNode.Data;
                     actualNode.Data = actualNode.Next.Data;
                     actualNode.Next.Data = temp;
-
                     swapped = true;
                 }
+            }
+        }
+    }
+
+    public void Sort()
+    {
+        T temp;
+        Node actualNode = head;
+        bool done = false;
+        for (int i = 0; i < Count-1; i++)
+        {
+            actualNode = head;
+            done = true;
+
+            for (int i2 = 0; i2 < Count - 1 - i; i2++)
+            {
+                if (actualNode.Data.CompareTo(actualNode.Next.Data) == 1)
+                {
+                    temp = actualNode.Data;
+                    actualNode.Data = actualNode.Next.Data;
+                    actualNode.Next.Data = temp;
+                    done = false;
+                }
+
+                actualNode = actualNode.Next;
+            }
+
+            if (done)
+            {
+                i = Count;
             }
         }
     }
