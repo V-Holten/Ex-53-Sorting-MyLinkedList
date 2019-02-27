@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Ex_53_Sorting_MyLinkedList__I_hate_my_life_;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MyLinkedList<T> : IEnumerable<T> where T : IComparable
+public class MyLinkedList<T> : IEnumerable<T> where T : IComparable<T>
 {
     private class Node
     {
@@ -199,32 +200,6 @@ public class MyLinkedList<T> : IEnumerable<T> where T : IComparable
             _currentT = default(T);
         }
     }
-    
-    public void Sort2()
-    {
-        bool swapped = true;
-        Node actualNode = head;
-        T temp;
-        while (swapped)
-        {
-            swapped = false;
-            actualNode = head;
-            while(!swapped && actualNode.Next != null)
-            {
-                if (actualNode.Data.CompareTo(actualNode.Next.Data) == -1)
-                {
-                    actualNode = actualNode.Next;
-                }
-                else
-                {
-                    temp = actualNode.Data;
-                    actualNode.Data = actualNode.Next.Data;
-                    actualNode.Next.Data = temp;
-                    swapped = true;
-                }
-            }
-        }
-    }
 
     public void Sort()
     {
@@ -239,6 +214,37 @@ public class MyLinkedList<T> : IEnumerable<T> where T : IComparable
             for (int i2 = 0; i2 < Count - 1 - i; i2++)
             {
                 if (actualNode.Data.CompareTo(actualNode.Next.Data) == 1)
+                {
+                    temp = actualNode.Data;
+                    actualNode.Data = actualNode.Next.Data;
+                    actualNode.Next.Data = temp;
+                    done = false;
+                }
+
+                actualNode = actualNode.Next;
+            }
+
+            if (done)
+            {
+                i = Count;
+            }
+        }
+    }
+
+    public void Sort(IComparer<T> ic)
+    {
+        T temp;
+        Node actualNode = head;
+        bool done = false;
+        IComparer<ClubMember> iClubMember = new ClubMember.SortClubMembersAfterLastName();
+        for (int i = 0; i < Count - 1; i++)
+        {
+            actualNode = head;
+            done = true;
+
+            for (int i2 = 0; i2 < Count - 1 - i; i2++)
+            {
+                if (ic.Compare(actualNode.Data, actualNode.Next.Data) == 1)
                 {
                     temp = actualNode.Data;
                     actualNode.Data = actualNode.Next.Data;

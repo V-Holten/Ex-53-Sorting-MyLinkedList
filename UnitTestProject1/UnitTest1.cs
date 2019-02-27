@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Ex_53_Sorting_MyLinkedList__I_hate_my_life_;
+using System.Collections.Generic;
 
 namespace UnitTestProject1
 {
@@ -366,6 +367,83 @@ namespace UnitTestProject1
             Assert.AreEqual(62, list.ItemAt(3));
             Assert.AreEqual(78, list.ItemAt(4));
             Assert.AreEqual(88, list.ItemAt(5));
+        }
+
+        [TestMethod]
+        public void TestBubbleSortDouble()
+        {
+            MyLinkedList<double> list = new MyLinkedList<Double>();
+            list.Insert(55.1);  // 55
+            list.Insert(78.2);  // 78, 55
+            list.Insert(23.3);  // 23, 78, 55
+            list.Insert(88.6);  // 88, 23, 78, 55
+            list.Insert(62.9);  // 62, 88, 23, 78, 55
+            list.Insert(49.1);  // 49, 62, 88, 23, 78, 55
+
+            list.Sort();
+
+            Assert.AreEqual(23.3, list.ItemAt(0));
+            Assert.AreEqual(49.1, list.ItemAt(1));
+            Assert.AreEqual(55.1, list.ItemAt(2));
+            Assert.AreEqual(62.9, list.ItemAt(3));
+            Assert.AreEqual(78.2, list.ItemAt(4));
+            Assert.AreEqual(88.6, list.ItemAt(5));
+        }
+
+        [TestMethod]
+        public void TestSortClubMembersAfterLastName_Compare()
+        {
+            IComparer<ClubMember> ic = new ClubMember.SortClubMembersAfterLastName();
+
+            Assert.IsTrue(ic.Compare(p4, p13) > 0);   // Mish - Ansley
+            Assert.IsTrue(ic.Compare(p4, p24) < 0);   // Mish - Shreenan
+            Assert.IsTrue(ic.Compare(p24, p13) > 0);  // Shreenan - Ansley
+            Assert.IsTrue(ic.Compare(p24, p24) == 0); // Shreenan - Shreenan
+        }
+
+        [TestMethod]
+        public void TestSortClubMembersAfterLastName()
+        {
+            MyLinkedList<ClubMember> list = new MyLinkedList<ClubMember>();
+            list.Insert(p2);  // LastName : Quail
+            list.Insert(p4);  // LastName : Mish
+            list.Insert(p23); // LastName : Sarrell
+            list.Insert(p9);  // LastName : Foulsham
+            list.Insert(p5);  // LastName : Boustred
+            list.Insert(p19); // LastName : Filler
+
+
+            list.Sort(new ClubMember.SortClubMembersAfterLastName()); // Sort on LastName
+
+            Assert.AreEqual(p5, list.ItemAt(0));  // LastName : Boustred
+            Assert.AreEqual(p19, list.ItemAt(1)); // LastName : Filler
+            Assert.AreEqual(p9, list.ItemAt(2));  // LastName : Foulsham
+            Assert.AreEqual(p4, list.ItemAt(3));  // LastName : Mish
+            Assert.AreEqual(p2, list.ItemAt(4));  // LastName : Quail
+            Assert.AreEqual(p23, list.ItemAt(5)); // LastName : Sarrell        
+        }
+
+        [TestMethod]
+        public void TestSortClubMembersAfterGenderAndLastName()
+        {
+            MyLinkedList<ClubMember> list = new MyLinkedList<ClubMember>();
+            list.Insert(p2);  // Gender : Male,   LastName : Quail
+            list.Insert(p4);  // Gender : Female, LastName : Mish
+            list.Insert(p23); // Gender : Male,   LastName : Sarrell
+            list.Insert(p9);  // Gender : Female, LastName : Foulsham
+            list.Insert(p5);  // Gender : Male,   LastName : Boustred
+            list.Insert(p19); // Gender : Male,   LastName : Filler
+            list.Insert(p13); // Gender : Female, LastName : Ansley
+
+            list.Sort(new ClubMember.SortClubMembersAfterGenderAndLastName());
+
+            Assert.AreEqual(p5, list.ItemAt(0));  // Gender : Male,   LastName : Boustred
+            Assert.AreEqual(p19, list.ItemAt(1)); // Gender : Male,   LastName : Filler
+            Assert.AreEqual(p2, list.ItemAt(2));  // Gender : Male,   LastName : Quail
+            Assert.AreEqual(p23, list.ItemAt(3)); // Gender : Male,   LastName : Sarrell
+            Assert.AreEqual(p13, list.ItemAt(4)); // Gender : Female, LastName : Ansley
+            Assert.AreEqual(p9, list.ItemAt(5));  // Gender : Female, LastName : Foulsham
+            Assert.AreEqual(p4, list.ItemAt(6));  // Gender : Female, LastName : Mish
         }
 
     }
